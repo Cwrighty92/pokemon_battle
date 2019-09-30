@@ -152,7 +152,7 @@ function choosePokemon(userTrainer) {
         console.log("You have Chosen " + answers.pokemonChoice);
         arrayPokemon.splice(userChoice, 1);
         if (userTrainer.pokeballs.length === 6) {
-          console.log("DON'T BE GREEDY");
+          console.log("You can't carry any more Pokemon!");
           return continueBattle(userTrainer);
         }
         choosePokemon(userTrainer);

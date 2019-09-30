@@ -6,47 +6,11 @@ class Battle {
   }
   fight(pokemon1, pokemon2, moveNum, userTrainer, Gyarados) {
     console.log("Pokemon ready");
-    this.ourMultiplier = 1;
-    this.oppMultiplier = 1;
 
     const staticDamage = pokemon1.damage;
 
-    if (moveNum === 1) {
-      pokemon1.damage += 10;
-    }
-    if (moveNum === 2) {
-      pokemon1.damage = 0;
-    }
-    if (moveNum === 3) {
-      pokemon1.damage *= 0.5;
-    }
-    if (
-      (pokemon1.type === "Grass" && pokemon2.type === "Water") ||
-      (pokemon1.type === "Fire" && pokemon2.type === "Grass") ||
-      (pokemon1.type === "Water" && pokemon2.type === "Fire")
-    ) {
-      this.ourMultiplier *= 1.25;
-      this.oppMultiplier = 0.75;
-      console.log(
-        `YES!${pokemon1.name} is strong against ${pokemon2.name}! BREAK IT'S FACE!`
-      );
-    }
-    if (
-      (pokemon2.type === "Grass" && pokemon1.type === "Water") ||
-      (pokemon2.type === "Fire" && pokemon1.type === "Grass") ||
-      (pokemon2.type === "Water" && pokemon1.type === "Fire")
-    ) {
-      this.oppMultiplier *= 1.25;
-      this.ourMultiplier = 0.75;
-      console.log(
-        `Careful!${pokemon2.name} is strong against ${pokemon1.name}`
-      );
-    }
     const num = Math.floor(Math.random() * 5 + 1);
-    if (num === 5) {
-      this.ourMultiplier *= 3;
-      console.log(`CRITICAL HIT!!!!`);
-    }
+
     if (this.flag === 0 && num !== 4) {
       pokemon2.hp = pokemon2.hp - pokemon1.damage * this.ourMultiplier;
       console.log(
@@ -69,7 +33,7 @@ class Battle {
         pokemon1.hp += 0;
         pokemon2.hp = pokemon2.hp * 0.1;
         console.log(
-          `Shellder blew itself up and left Mewtwo on 10 percent health!`
+          `Shellder blew itself up and left ${pokemon2.name} on 10 percent health!`
         );
       }
       if (pokemon2.hp <= 0) return console.log("You have won 300 coins");
@@ -78,6 +42,12 @@ class Battle {
 
       this.flag++;
     }
+
+    if (num === 5) {
+      this.ourMultiplier *= 3;
+      console.log(`CRITICAL HIT!!!!`);
+    }
+
     if (num === 4) {
       console.log(`You missed!`);
       this.flag++;
