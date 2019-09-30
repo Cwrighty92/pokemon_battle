@@ -1,0 +1,21 @@
+{
+  "name": "Pokemen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pokemenTrainers.js",
+  "scripts": {
+    "test": "jest",
+    "play": "node game.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.9.1",
+    "jest": "^24.9.0"
+  }
+}
