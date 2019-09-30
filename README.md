@@ -1,6 +1,6 @@
 # Pokemon_Battle_Console_Game
   
-  Pokemon Battle terminal Game
+  Pokemon Battle terminal Game, fight against a Rare powerful Pokemon with a group of selected available pokemon.
 
 # To run game
 
@@ -10,6 +10,6 @@
 
 # Built using
 
-  Node.js
-  Jest
-  inquirer
+  - Node.js
+  - Jest
+  - inquirer
