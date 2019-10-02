@@ -1,124 +1,6 @@
-let { Trainer, Pokemon } = require("./pokemonTrainers");
-let { Battle } = require("./battle");
 let inquirer = require("inquirer");
-
-const opponent = new Trainer("Sam");
-const oppMewtwo = new Pokemon("Mewtwo", ["Psychic"], 750, 75, "Psychic");
-
-opponent.catch(oppMewtwo);
-
-const Shellder = new Pokemon(
-  "Shellder",
-  ["BubbleBeam", "Surf", "Self-Destruct", "Tackle"],
-  120,
-  45,
-  "Self-Destruct",
-  "Water"
-);
-const Gyarados = new Pokemon(
-  "Red Gyarados",
-  ["DragonRage", "Hydro Pump", "Double Team", "Thunder"],
-  330,
-  70,
-  "Dragon Rage",
-  "Water"
-);
-const Tangela = new Pokemon(
-  "Tangela",
-  ["Vine Whip", "Absorb", "SweetScent", "Tackle"],
-  125,
-  50,
-  "Vine Whip",
-  "Grass"
-);
-const Snorlax = new Pokemon(
-  "Snorlax",
-  ["Body Slam", "Hyper Beam", "Rest", "Tackle"],
-  200,
-  50,
-  "Rest"
-);
-const Tauros = new Pokemon(
-  "Tauros",
-  ["Take Down", "Horn Drill", "Leer", "Skull Bash"],
-  180,
-  45,
-  "Take Down"
-);
-const Magikarp = new Pokemon(
-  "Magikarp",
-  ["Flail", "Bubble", "Splash", "Tackle"],
-  100,
-  5,
-  "Splash",
-  "Water"
-);
-const Psyduck = new Pokemon(
-  "Psyduck",
-  ["Scratch", "Water Gun", "Tail Whip", "Tackle"],
-  130,
-  10,
-  "Confusion",
-  "Water"
-);
-const Charmander = new Pokemon(
-  "Charmander",
-  ["Scratch", "Ember", "Leer", "Tackle"],
-  120,
-  45,
-  "Ember",
-  "Fire"
-);
-const Magmar = new Pokemon(
-  "Magmar",
-  ["Fire Punch", "Fire Blast", "SmokeScreen", "Smog"],
-  120,
-  45,
-  "Ember",
-  "Fire"
-);
-const Bulbasaur = new Pokemon(
-  "Bulbasaur",
-  ["Scratch", "Razor Leaf", "Growl", "Tackle"],
-  120,
-  45,
-  "Vine Whip",
-  "Grass"
-);
-const Squirtle = new Pokemon(
-  "Squirtle",
-  ["Bite", "Hydro Pump", "Leer", "Water Gun"],
-  120,
-  45,
-  "Vine Whip",
-  "Water"
-);
-let wildPokemon = {
-  Tangela,
-  Psyduck,
-  Magikarp,
-  Charmander,
-  Snorlax,
-  Tauros,
-  Bulbasaur,
-  Squirtle,
-  Magmar,
-  Gyarados,
-  Shellder
-};
-let arrayPokemon = [
-  Tangela.name,
-  Psyduck.name,
-  Magikarp.name,
-  Shellder.name,
-  Charmander.name,
-  Snorlax.name,
-  Tauros.name,
-  Bulbasaur.name,
-  Squirtle.name,
-  Magmar.name,
-  "I have enough Pokemon"
-];
+let { Trainer, wildPokemon, Opponent } = require("./pokemonTrainers");
+let { Battle } = require("./battle");
 
 function personalTrainer() {
   inquirer
@@ -136,21 +18,30 @@ function personalTrainer() {
 }
 
 function choosePokemon(userTrainer) {
+  const pokemonChoices = wildPokemon.map(pokemon => pokemon.name);
   inquirer
     .prompt([
       {
         type: "list",
         message: "Catch some pokemon",
-        choices: arrayPokemon,
+        choices: [...pokemonChoices, "I have enough Pokemon"],
         name: "pokemonChoice"
       }
     ])
     .then(function(answers) {
       if (answers.pokemonChoice !== "I have enough Pokemon") {
-        userTrainer.catch(wildPokemon[answers.pokemonChoice]);
-        const userChoice = arrayPokemon.indexOf(answers.pokemonChoice);
+        userTrainer.catch(
+          wildPokemon.find(pokemon => pokemon.name === answers.pokemonChoice)
+        );
+
         console.log("You have Chosen " + answers.pokemonChoice);
-        arrayPokemon.splice(userChoice, 1);
+        wildPokemon.splice(
+          wildPokemon.findIndex(
+            pokemon => pokemon.name === answers.pokemonChoice
+          ),
+          1
+        );
+
         if (userTrainer.pokeballs.length === 6) {
           console.log("You can't carry any more Pokemon!");
           return continueBattle(userTrainer);
@@ -172,29 +63,29 @@ function continueBattle(userTrainer) {
       {
         type: "list",
         message: "Select a move",
-        choices: userTrainer.pokeballs[0].move,
+        choices: userTrainer.pokeballs[0].moves,
         name: "chosenMove"
       }
     ])
     .then(function(answers) {
-      const pickedWord = answers.chosenMove;
-      const pickedNum = userTrainer.pokeballs[0].move.indexOf(pickedWord);
+      const pickedNum = userTrainer.pokeballs[0].moves.indexOf(
+        answers.chosenMove
+      );
 
       const newRound = new Battle(
         userTrainer.pokeballs[0],
-        opponent.pokeballs[0]
+        Opponent.pokeballs[0]
       );
       newRound.fight(
         userTrainer.pokeballs[0],
-        opponent.pokeballs[0],
+        Opponent.pokeballs[0],
         pickedNum,
-        userTrainer,
-        Gyarados
+        userTrainer
       );
       if (userTrainer.pokeballs.length === 0) {
         return console.log("Thanks for playing, better luck next time");
       }
-      if (userTrainer.pokeballs[0].hp > 0 && opponent.pokeballs[0].hp > 0) {
+      if (userTrainer.pokeballs[0].hp > 0 && Opponent.pokeballs[0].hp > 0) {
         continueBattle(userTrainer);
       }
     });
