@@ -1,10 +1,11 @@
+let { Pokemon } = require("./pokemonTrainers");
 class Battle {
   constructor() {
     this.flag = 0;
     this.ourMultiplier = 1;
     this.oppMultiplier = 1;
   }
-  fight(pokemon1, pokemon2, moveNum, userTrainer, Gyarados) {
+  fight(pokemon1, pokemon2, moveNum, userTrainer) {
     console.log("Pokemon ready");
 
     const staticDamage = pokemon1.damage;
@@ -15,21 +16,21 @@ class Battle {
       pokemon2.hp = pokemon2.hp - pokemon1.damage * this.ourMultiplier;
       console.log(
         `Your ${pokemon1.name} used ${
-          pokemon1.move[moveNum]
+          pokemon1.moves[moveNum]
         } doing ${pokemon1.damage * this.ourMultiplier} damage`
       );
-      if (pokemon1.move[moveNum] === "Rest") {
+      if (pokemon1.moves[moveNum] === "Rest") {
         pokemon1.hp += 70;
         console.log(`However Snorlax is healthy again`);
       }
-      if (pokemon1.move[moveNum] === "Absorb") {
+      if (pokemon1.moves[moveNum] === "Absorb") {
         pokemon1.hp += (pokemon1.damage * this.ourMultiplier) / 2;
         console.log(
           `Tangela drained ${(pokemon1.damage * this.ourMultiplier) /
             2} health from ${pokemon2.name}`
         );
       }
-      if (pokemon1.move[moveNum] === "Self-Destruct") {
+      if (pokemon1.moves[moveNum] === "Self-Destruct") {
         pokemon1.hp += 0;
         pokemon2.hp = pokemon2.hp * 0.1;
         console.log(
@@ -52,9 +53,16 @@ class Battle {
       console.log(`You missed!`);
       this.flag++;
     }
-    if (pokemon1.name === "Magikarp" && num === 2) {
+    if (pokemon1.name === "Magikarp") {
       console.log(`Magikarp is evolving and is becoming the Red Gyarados!`);
-      userTrainer.pokeballs[0] = Gyarados;
+      userTrainer.pokeballs[0] = new Pokemon({
+        name: "Red Gyarados",
+        moves: ["DragonRage", "Hydro Pump", "Double Team", "Thunder"],
+        hp: 330,
+        damage: 70,
+        favMove: "Dragon Rage",
+        type: "Water"
+      });
     }
     if (num === 1) {
       this.flag--;
