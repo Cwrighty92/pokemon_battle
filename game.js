@@ -1,5 +1,6 @@
 let inquirer = require("inquirer");
-let { Trainer, wildPokemon, Opponent } = require("./pokemonTrainers");
+let { Trainer, Opponent } = require("./pokemonTrainers");
+let { wildPokemon } = require("./wildPokemon");
 let { Battle } = require("./battle");
 
 function personalTrainer() {

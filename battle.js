@@ -74,7 +74,7 @@ class Battle {
       }
       console.log(
         `Your ${pokemon1.name} has been attacked with ${
-          pokemon2.move
+          pokemon2.favMove
         }, taking ${pokemon2.damage * this.oppMultiplier} damage`
       );
       pokemon1.hp = pokemon1.hp - pokemon2.damage * this.oppMultiplier;
@@ -88,8 +88,6 @@ class Battle {
         }
         pokemon1 = userTrainer.pokeballs[0];
       }
-
-      console.log(pokemon1);
     }
   }
 }

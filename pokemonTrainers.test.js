@@ -5,15 +5,13 @@ describe("Pokemon Tests", () => {
     const newPokemon = new Pokemon({
       name: "Mew",
       moves: ["Psychic", "Tail Whip", "Pound", "Teleport"],
-      hp: 100,
-      damage: 20,
       favMove: "Psychic"
     });
     expect(newPokemon).toEqual({
       name: "Mew",
       moves: ["Psychic", "Tail Whip", "Pound", "Teleport"],
-      hp: 100,
-      damage: 20,
+      hp: 150,
+      damage: 40,
       favMove: "Psychic",
       type: "Normal"
     });
